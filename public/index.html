@@ -395,7 +395,7 @@
         status.innerText = '⏳ جاري قراءة البلاي ليست...';
 
         try {
-            const res = await fetch('/api/playlist', {
+            const res = await fetch('https://workspace.mohamedahmedkhl.replit.dev/api/playlist', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ url })
@@ -429,7 +429,7 @@
             status.innerText = `⏳ جاري تنزيل (${i + 1}/${currentVideos.length}): ${video.title} ...`;
 
             try {
-                const res = await fetch('/api/download-single', {
+                const res = await fetch('https://workspace.mohamedahmedkhl.replit.dev/api/download-single', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ video })
