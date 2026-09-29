@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحميل قائمة تشغيل يوتيوب MP3 مجاناً | YouTube Playlist Downloader</title>
+    <meta name="description" content="أسرع وأسهل أداة مجانية لتنزيل قوائم تشغيل يوتيوب (Playlist) بصيغة MP3 و M4A عالية الجودة برابط واحد وبدون إعلانات مزعجة. يدعم تنزيل السلاسل الكاملة والقرآن الكريم.">
+    <meta name="author" content="DGS Tools">
+
+    <meta name="keywords" content="
+    تنزيل قائمة تشغيل يوتيوب, 
+    تحميل بلاي ليست يوتيوب MP3, 
+    تنزيل قائمة تشغيل كاملة برابط واحد, 
+    تحميل قائمة تشغيل قرآن كاملة MP3, 
+    تحميل كورس يوتيوب كامل صوت, 
+    تنزيل فيديوهات يوتيوب دفعة واحدة, 
+    أداة تنزيل يوتيوب بدون إعلانات, 
+    تحميل صوت من يوتيوب بجودة عالية, 
+    youtube playlist downloader, 
+    download youtube playlist mp3, 
+    free bulk youtube downloader, 
+    convert youtube playlist to mp3, 
+    youtube to mp3 high quality 320kbps, 
+    fast online video downloader, 
+    no ads playlist downloader,
+    تنزيل الباتنجان من السلطة بالليمون
+    ">
+
+    <!-- إعدادات محركات البحث (Indexing) -->
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+
+    <!-- Open Graph (عشان لما تبعت اللينك في الشات على واتساب/فيسبوك يظهر بطاقة شيك) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com/">
+    <meta property="og:title" content="أداة تنزيل قوائم تشغيل يوتيوب مجاناً وبدون إعلانات">
+    <meta property="og:description" content="نزّل أي Playlist من يوتيوب برابط واحد بصيغة MP3 عالية الجودة وبسرعة خيالية.">
+    <meta property="og:image" content="https://your-domain.com/preview-image.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="تحميل قوائم تشغيل يوتيوب MP3 مجاناً">
+    <meta name="twitter:description" content="أسرع محمل بلاي ليست يوتيوب برابط واحد وبجودة عالية."></meta>
+    <style>
+        * {
+        box-sizing: border-box;
+        }
+
+        body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #0f172a;
+        color: #f8fafc;
+        font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .top {
+        flex: 1;
+        height: 100%;
+        width: 100%;
+        }
+
+        main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 40px 20px;
+        }
+
+        .card {
+        position: relative; /* مهم جداً عشان زرار القهوة العلوي يثبت جواه */
+        background: #1e293b;
+        padding: 2rem;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 650px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+        text-align: center;
+        color: #38bdf8;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        }
+
+        input, select, button { 
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 8px;
+        border: 1px solid #334155;
+        background: #0f172a;
+        color: white;
+        font-size: 1rem;
+        }
+
+        button {
+        background: #0284c7;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        transition: 0.2s;
+        }
+
+        button:hover {
+        background: #0369a1;
+        }
+
+        .status {
+        margin-top: 15px;
+        padding: 10px;
+        background: #334155;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        text-align: center;
+        }
+
+        .video-list {
+        max-height: 300px;
+        overflow-y: auto; 
+        margin-top: 15px; 
+        border: 1px solid #334155;
+        border-radius: 8px; 
+        padding: 10px; 
+        }
+
+        .video-item { 
+        display: flex; 
+        align-items: center; 
+        gap: 10px; 
+        margin-bottom: 8px; 
+        border-bottom: 1px solid #1e293b; 
+        padding-bottom: 5px; 
+        }
+
+        /* --- الفوتر --- */
+        .site-footer {
+        width: 100%;
+        background-color: #0f172a;
+        color: #94a3b8;
+        padding: 40px 20px 20px 20px;
+        border-top: 1px solid #1e293b;
+        margin-top: 50px;
+
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .site-footer.visible {
+        opacity: 1;
+        transform: translateY(0);
+        }
+
+        .footer-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        }
+
+        .footer-section h3 {
+        color: #f8fafc;
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+        border-right: 3px solid #3b82f6;
+        padding-right: 10px;
+        margin-top: 0;
+        }
+
+        .instructions-list {
+        padding-right: 20px;
+        line-height: 1.8;
+        font-size: 0.9rem;
+        margin: 0;
+        }
+
+        .social-links {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+        }
+
+        .social-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #ffffff;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: bold;
+        transition: opacity 0.2s ease;
+        width: fit-content;
+        }
+
+        .social-btn.facebook {
+        background-color: #1877f2;
+        }
+
+        .social-btn.whatsapp {
+        background-color: #25d366;
+        }
+
+        .social-btn:hover {
+        opacity: 0.85;
+        }
+
+        .footer-bottom {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #1e293b;
+        font-size: 0.85rem;
+        color: #64748b;
+        }
+
+        .footer-bottom strong {
+        color: #3b82f6;
+        }
+
+        /* --- أزرار القهوة --- */
+        .coffee-btn-top {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: #ffdd00;
+        color: #000;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+        text-decoration: none;
+        transition: transform 0.2s ease;
+        }
+
+        .coffee-btn-top:hover {
+        transform: scale(1.05);
+        }
+
+        .coffee-btn-bottom {
+        display: inline-block;
+        background-color: #ffdd00;
+        color: #000;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-decoration: none;
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+        transition: opacity 0.2s;
+        }
+
+        .coffee-btn-bottom:hover {
+        opacity: 0.9;
+        }
+
+        /* --- البانرات الجانبية (الشاشات الكبيرة) --- */
+        .ad-banner {
+        position: fixed;
+        top: 100px;
+        width: 160px;
+        height: 600px;
+        background-color: rgba(30, 41, 59, 0.5);
+        border: 1px dashed #334155;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        }
+
+        .ad-left {
+        left: 20px;
+        }
+
+        .ad-right {
+        right: 20px;
+        }
+
+        .ad-placeholder {
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 500;
+        }
+
+        /* --- التعديل المخصص للشاشات الصغيرة والموبايل --- */
+        @media (max-width: 1200px) {
+        /* البانر الشمال ينزل بـ relative تحت كارت التحميل ويبقى أفقي */
+        .ad-left {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-width: 650px; /* نفس عرض الكارت بالضبط */
+            height: 90px;    /* ارتفاع البانر الأفقي القياسي للموبايل */
+            margin: 25px auto 0 auto;
+        }
+
+        /* إخفاء البانر اليمين تماماً لمنع الازدحام */
+        .ad-right {
+            display: none;
+        }
+        }
+    </style>
+</head>
+<body>
+
+        <main>
+            
+            <div class="card">
+
+            <a href="https://www.buymeacoffee.com/YOUR_USERNAME" target="_blank" class="coffee-btn-top">
+                ☕ ادعمنا بقهوة
+            </a>
+            <h1>🚀 YouTube Playlist Downloader</h1>
+            <input type="text" id="urlInput" placeholder="حط رابط البلاي ليست هنا..." />
+            <button onclick="fetchPlaylist()">عرض فيديوهات البلاي ليست 🔍</button>
+
+            <div id="status" class="status" style="display: none;"></div>
+
+            <div id="playlistArea" style="display: none;">
+                <select id="formatSelect">
+                <option value="mp3">MP3 (صوت)</option>
+                </select>
+                <button onclick="downloadAll()">تنزيل الكل 📥</button>
+                <div id="videoList" class="video-list"></div>
+            </div>
+            </div>
+        </main>
+    
+   <aside class="ad-banner ad-left">
+        <div class="ad-placeholder">مساحة إعلانية</div>
+    </aside>
+
+    <aside class="ad-banner ad-right">
+        <div class="ad-placeholder">مساحة إعلانية</div>
+    </aside>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      
+      <div class="footer-section">
+        <h3>كيفية الاستخدام</h3>
+        <ol class="instructions-list">
+          <li>انسخ رابط قائمة التشغيل (Playlist) من يوتيوب.</li>
+          <li>الصق الرابط في مربع البحث بالمنصة.</li>
+          <li>اضغط على "عرض فيديوهات البلاي ليست".</li>
+          <li>اختر صيغة التحميل ثم اضغط "تنزيل الكل".</li>
+        </ol>
+      </div>
+
+      <div class="footer-section">
+        <h3>تواصل معنا</h3>
+        <p style="margin-top: 0; font-size: 0.9rem;">للدعم الفني والإقتراحات يمكنك التواصل عبر:</p>
+        <div class="social-links">
+          <a href="https://facebook.com/exam.me" target="_blank" class="social-btn facebook">
+            Facebook
+          </a>
+          <a href="https://wa.me/+201213779075" target="_blank" class="social-btn whatsapp">
+            WhatsApp
+          </a>
+          <a href="https://www.buymeacoffee.com/YOUR_USERNAME" target="_blank" class="coffee-btn-bottom">
+            ☕ Buy Me a Coffee
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 جميع الحقوق محفوظة لـ <strong>كل مسلم</strong></p>
+    </div>
+  </footer>
+
+  <script>
+    let currentVideos = [];
+
+    async function fetchPlaylist() {
+        const url = document.getElementById('urlInput').value.trim();
+        const status = document.getElementById('status');
+        if (!url) return alert('ادخل الرابط الأول!');
+
+        status.style.display = 'block';
+        status.innerText = '⏳ جاري قراءة البلاي ليست...';
+
+        try {
+            const res = await fetch('/api/playlist', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url })
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+
+            currentVideos = data.videos;
+            document.getElementById('playlistArea').style.display = 'block';
+            
+            const listDiv = document.getElementById('videoList');
+            listDiv.innerHTML = data.videos.map((v, i) => `
+                <div class="video-item">
+                    <span>${i + 1}. ${v.title}</span>
+                </div>
+            `).join('');
+
+            status.innerText = `✅ تم إيجاد ${data.videos.length} فيديو!`;
+        } catch (err) {
+            status.innerText = '❌ خطأ: ' + err.message;
+        }
+    }
+
+    async function downloadAll() {
+        const status = document.getElementById('status');
+        status.style.display = 'block';
+
+        for (let i = 0; i < currentVideos.length; i++) {
+            const video = currentVideos[i];
+            
+            status.innerText = `⏳ جاري تنزيل (${i + 1}/${currentVideos.length}): ${video.title} ...`;
+
+            try {
+                const res = await fetch('/api/download-single', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ video })
+                });
+
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+
+            } catch (err) {
+                console.error(`خطأ في الفيديو ${video.title}:`, err);
+            }
+        }
+
+        status.innerText = '🎉 تم تنزيل القائمة بالكامل في مجلد Downloads/playlist-downloader!';
+    }
+
+   // كود إظهار الفوتر عند الوصول لنهاية الصفحة
+   let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', () => {
+    const footer = document.querySelector('.site-footer');
+    if (!footer) return;
+
+    const currentScrollY = window.scrollY;
+    
+    // شرط السكرول لتحت (أكتر من 10 بيكسل عشان يمنع البربشة)
+    if (currentScrollY - lastScrollY > 10) {
+        footer.classList.add('visible');
+    } 
+    // شرط السكرول لفوق (أكتر من 10 بيكسل)
+    else if (lastScrollY - currentScrollY > 10) {
+        footer.classList.remove('visible');
+    }
+
+    lastScrollY = currentScrollY;
+    });
+        
+
+  </script>
+
+</body>
+</html>
